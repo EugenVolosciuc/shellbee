@@ -154,6 +154,18 @@ func ReadKey(key string) (string, error) {
 	return command, nil
 }
 
-func ListKeys() {
+func ListKeys() ([]string, error) {
+	storageFileData, err := readStorageFile()
 
+	if err != nil {
+		return []string{}, err
+	}
+
+	keys := make([]string, 0, len(storageFileData.Aliases))
+
+	for key := range storageFileData.Aliases {
+		keys = append(keys, key)
+	}
+
+	return keys, nil
 }

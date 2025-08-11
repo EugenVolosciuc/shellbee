@@ -3,58 +3,72 @@ package commands
 import (
 	"fmt"
 	"os/exec"
+	"strconv"
 
 	"github.com/EugenVolosciuc/shellbee/internal/storage"
 )
 
-func Save(args ...string) error {
+func Save(args ...string) {
 	key := args[0]
 	command := args[1]
 
 	err := storage.WriteKey(key, command)
 
 	if err != nil {
-		return err
+		fmt.Printf("Could not write the provided key, error: %v", err)
+		return
 	}
 
 	fmt.Println("Command saved.")
-	return nil
 }
 
-func Run(args ...string) error {
+func Run(args ...string) {
 	key := args[0]
 
 	command, err := storage.ReadKey(key)
 
 	if err != nil {
-		return err
+		fmt.Printf("Could not read the provided key, error: %v", err)
+		return
 	}
 
-	cmd := exec.Command(command)
+	cmd := exec.Command("sh", "-c", command)
 
-	if err = cmd.Run(); err != nil {
-		return fmt.Errorf("error running the '%s' command: %w", key, err)
+	stdout, err := cmd.Output()
+
+	if err != nil {
+		fmt.Printf("Could not run the command of the selected key, error: %v", err)
+		return
 	}
 
-	return nil
+	fmt.Print(string(stdout))
 }
 
-func List(args ...string) error {
-	fmt.Println("List handler")
-	return nil
+func List(args ...string) {
+	keys, err := storage.ListKeys()
+
+	if err != nil {
+		fmt.Printf("Could not list keys, error: %v", err)
+		return
+	}
+
+	displayedList := "Total aliases: " + strconv.Itoa(len(keys)) + "\n"
+
+	for _, key := range keys {
+		displayedList += "  - " + "\"" + key + "\""
+	}
+
+	fmt.Printf("%s\n", displayedList)
 }
 
-func Search(args ...string) error {
+func Search(args ...string) {
 	fmt.Println("Find handler")
-	return nil
 }
 
-func Delete(args ...string) error {
+func Delete(args ...string) {
 	fmt.Println("Delete handler")
-	return nil
 }
 
-func Help(args ...string) error {
+func Help(args ...string) {
 	fmt.Println("Help handler")
-	return nil
 }
