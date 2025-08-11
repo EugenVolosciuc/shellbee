@@ -77,5 +77,27 @@ func Delete(args ...string) {
 }
 
 func Help(args ...string) {
-	fmt.Println("Help handler")
+	helpText := `
+shellbee — Your busy little helper in the shell 🐝
+
+Usage:
+  shb <command> [arguments]
+
+Commands:
+  save (s)    <name> <command>   Save a new command alias
+  run  (r)    <name>             Run a saved command
+  list (l)                       List all saved command aliases
+  find (f)    <query>            Search saved commands by a partial name or content
+  delete (d)  <name>             Delete a saved command alias
+  help (h)                       Show this help message
+
+Examples:
+  shb save greet "echo 'Hello World'"
+  shb run greet
+  shb list
+  shb find hello
+  shb delete greet
+
+More info: https://github.com/EugenVolosciuc/shellbee`
+	fmt.Println(helpText)
 }
