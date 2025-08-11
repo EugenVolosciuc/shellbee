@@ -4,9 +4,7 @@
 
 <h1 align="center">ShellBee</h1>
 
-**shellbee** is a lightweight CLI tool for storing, organizing, and running your favorite terminal commands in a flash. Think of it as your busy little helper in the shell — always ready to buzz into action.
-
----
+> **shellbee** is a lightweight CLI tool for storing, organizing, and running your favorite terminal commands in a flash. Think of it as your busy little helper in the shell — always ready to buzz into action.
 
 ## Features
 
@@ -17,13 +15,9 @@
 - Delete aliases you no longer need
 - Simple, intuitive command syntax with short aliases
 
----
-
 ## Installation
 
 _(TODO: Add installation instructions here — e.g., building from source, downloading binaries, etc.)_
-
----
 
 ## Usage
 
@@ -40,8 +34,6 @@ Example:
 shb save greet "echo 'Hello World'"
 ```
 
----
-
 ### Run a saved command
 
 ```
@@ -55,16 +47,12 @@ Example:
 shb run greet
 ```
 
----
-
 ### List saved command aliases
 
 ```
 shb list
 shb l
 ```
-
----
 
 ### Search commands by keyword
 
@@ -79,8 +67,6 @@ Example:
 shb find echo
 ```
 
----
-
 ### Delete a command alias
 
 ```
@@ -88,16 +74,12 @@ shb delete {{name}}
 shb d {{name}}
 ```
 
----
-
 ### Show CLI help
 
 ```
 shb help
 shb h
 ```
-
----
 
 ## Configuration & Storage
 
@@ -109,13 +91,9 @@ ShellBee stores your commands in a JSON file located in a sensible place dependi
 
 This file is created automatically on first use.
 
----
-
 ## Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](#) or submit a pull request.
-
----
 
 ## License
 
