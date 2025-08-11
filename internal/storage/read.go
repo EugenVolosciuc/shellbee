@@ -1,12 +1,21 @@
 package storage
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"path"
 	"runtime"
 )
+
+type Alias string
+type AliasesMap map[string]string
+
+type StorageFileData struct {
+	Aliases AliasesMap `json:"aliases"`
+}
 
 func getStorageFileLocation() (string, error) {
 	homeDir, err := os.UserHomeDir()
@@ -20,6 +29,8 @@ func getStorageFileLocation() (string, error) {
 	var finalFileLocation string
 
 	switch runtime.GOOS {
+	case "windows":
+		fallthrough
 	case "windows/386":
 		fallthrough
 	case "windows/amd64":
@@ -28,10 +39,14 @@ func getStorageFileLocation() (string, error) {
 		fallthrough
 	case "windows/arm64":
 		finalFileLocation = path.Join(homeDir, fileLocation)
+	case "darwin":
+		fallthrough
 	case "darwin/amd64":
 		fallthrough
 	case "darwin/arm64":
 		finalFileLocation = path.Join(homeDir, "Library", "Application Support", fileLocation)
+	case "linux":
+		fallthrough
 	case "linux/386":
 		fallthrough
 	case "linux/amd64":
@@ -71,8 +86,50 @@ func getStorageFileLocation() (string, error) {
 	return finalFileLocation, nil
 }
 
-func readStorageFile() error {
-	return nil
+func checkStorageFileExists() (bool, error) {
+	filePath, err := getStorageFileLocation()
+
+	fmt.Printf("Storage file path: %v\n", filePath)
+
+	if err != nil {
+		return false, err
+	}
+
+	_, err = os.Stat(filePath)
+
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+
+		return false, err
+	}
+
+	return true, nil
+}
+
+func readStorageFile() (StorageFileData, error) {
+	var result StorageFileData
+
+	finalLocation, err := getStorageFileLocation()
+
+	if err != nil {
+		return result, fmt.Errorf("could not get storage file location: %w", err)
+	}
+
+	jsonFile, err := os.Open(finalLocation)
+
+	if err != nil {
+		return result, fmt.Errorf("could not open the storage file: %w", err)
+	}
+
+	defer jsonFile.Close()
+
+	byteValue, _ := io.ReadAll(jsonFile)
+
+	json.Unmarshal(byteValue, &result)
+
+	return result, nil
 }
 
 func ReadKey() {

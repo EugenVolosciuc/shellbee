@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/EugenVolosciuc/shellbee/internal/commands"
+	"github.com/EugenVolosciuc/shellbee/internal/storage"
 )
 
 func main() {
@@ -15,7 +16,6 @@ func main() {
 		return
 	}
 
-	// Get action
 	action, ok := commands.ActionsMap[args[0]]
 
 	if !ok {
@@ -25,6 +25,13 @@ func main() {
 			fmt.Println("Invalid command provided")
 			return
 		}
+	}
+
+	err := storage.CheckAndCreateStorageFile()
+
+	if err != nil {
+		fmt.Printf("Could not find storage file, error: %v\n", err)
+		return
 	}
 
 	handler, ok := commands.ActionHandlersMap[action]

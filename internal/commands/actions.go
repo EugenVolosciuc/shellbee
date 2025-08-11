@@ -15,11 +15,17 @@ const (
 
 var ActionsMap = map[string]Action{
 	"save":   SaveAction,
+	"s":      SaveAction,
 	"run":    RunAction,
+	"r":      RunAction,
 	"list":   ListAction,
+	"l":      ListAction,
 	"find":   FindAction,
+	"f":      FindAction,
 	"delete": DeleteAction,
+	"d":      DeleteAction,
 	"help":   HelpAction,
+	"h":      HelpAction,
 }
 
 var ActionHandlersMap = map[Action]ActionHandler{
