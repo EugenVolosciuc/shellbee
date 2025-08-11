@@ -17,6 +17,14 @@ type StorageFileData struct {
 	Aliases AliasesMap `json:"aliases"`
 }
 
+type KeyNotFoundError struct {
+	key string
+}
+
+func (err *KeyNotFoundError) Error() string {
+	return fmt.Sprintf("%s key not found", err.key)
+}
+
 func getStorageFileLocation() (string, error) {
 	homeDir, err := os.UserHomeDir()
 
@@ -130,8 +138,20 @@ func readStorageFile() (StorageFileData, error) {
 	return result, nil
 }
 
-func ReadKey() {
+func ReadKey(key string) (string, error) {
+	storageFileData, err := readStorageFile()
 
+	if err != nil {
+		return "", err
+	}
+
+	command, ok := storageFileData.Aliases[key]
+
+	if !ok {
+		return "", &KeyNotFoundError{key}
+	}
+
+	return command, nil
 }
 
 func ListKeys() {

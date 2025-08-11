@@ -8,7 +8,7 @@ const (
 	SaveAction Action = iota
 	RunAction
 	ListAction
-	FindAction
+	SearchAction
 	DeleteAction
 	HelpAction
 )
@@ -20,8 +20,8 @@ var ActionsMap = map[string]Action{
 	"r":      RunAction,
 	"list":   ListAction,
 	"l":      ListAction,
-	"find":   FindAction,
-	"f":      FindAction,
+	"find":   SearchAction,
+	"f":      SearchAction,
 	"delete": DeleteAction,
 	"d":      DeleteAction,
 	"help":   HelpAction,
@@ -32,7 +32,7 @@ var ActionHandlersMap = map[Action]ActionHandler{
 	SaveAction:   Save,
 	RunAction:    Run,
 	ListAction:   List,
-	FindAction:   Find,
+	SearchAction: Search,
 	DeleteAction: Delete,
 	HelpAction:   Help,
 }

@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"os/exec"
 
 	"github.com/EugenVolosciuc/shellbee/internal/storage"
 )
@@ -21,7 +22,20 @@ func Save(args ...string) error {
 }
 
 func Run(args ...string) error {
-	fmt.Println("Run handler")
+	key := args[0]
+
+	command, err := storage.ReadKey(key)
+
+	if err != nil {
+		return err
+	}
+
+	cmd := exec.Command(command)
+
+	if err = cmd.Run(); err != nil {
+		return fmt.Errorf("error running the '%s' command: %w", key, err)
+	}
+
 	return nil
 }
 
@@ -30,7 +44,7 @@ func List(args ...string) error {
 	return nil
 }
 
-func Find(args ...string) error {
+func Search(args ...string) error {
 	fmt.Println("Find handler")
 	return nil
 }
