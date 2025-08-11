@@ -89,8 +89,6 @@ func getStorageFileLocation() (string, error) {
 func checkStorageFileExists() (bool, error) {
 	filePath, err := getStorageFileLocation()
 
-	fmt.Printf("Storage file path: %v\n", filePath)
-
 	if err != nil {
 		return false, err
 	}

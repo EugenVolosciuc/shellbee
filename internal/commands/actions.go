@@ -2,7 +2,7 @@ package commands
 
 type Action int
 
-type ActionHandler func(args ...string)
+type ActionHandler func(args ...string) error
 
 const (
 	SaveAction Action = iota

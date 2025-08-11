@@ -6,22 +6,14 @@ import (
 	"path/filepath"
 )
 
-func createStorageFile() error {
+func saveStorageFile(data []byte) error {
 	filePath, err := getStorageFileLocation()
 
 	if err != nil {
 		return err
 	}
 
-	jsonStr, _ := json.Marshal(StorageFileData{})
-
-	err = os.MkdirAll(filepath.Dir(filePath), 0755)
-
-	if err != nil {
-		return err
-	}
-
-	err = os.WriteFile(filePath, []byte(jsonStr), 0644)
+	err = os.WriteFile(filePath, []byte(data), 0644)
 
 	if err != nil {
 		return err
@@ -30,8 +22,44 @@ func createStorageFile() error {
 	return nil
 }
 
-func WriteKey() {
+func createStorageFile() error {
+	filePath, err := getStorageFileLocation()
 
+	if err != nil {
+		return err
+	}
+
+	jsonStr, _ := json.Marshal(StorageFileData{make(AliasesMap)})
+
+	err = os.MkdirAll(filepath.Dir(filePath), 0755)
+
+	if err != nil {
+		return err
+	}
+
+	err = saveStorageFile(jsonStr)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func WriteKey(key, command string) error {
+	storageFileData, err := readStorageFile()
+
+	if err != nil {
+		return err
+	}
+
+	storageFileData.Aliases[key] = command
+
+	jsonStr, _ := json.Marshal(storageFileData)
+
+	saveStorageFile(jsonStr)
+
+	return nil
 }
 
 func DeleteKey() {
