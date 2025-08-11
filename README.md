@@ -1,4 +1,8 @@
-# shellbee
+<p align="center">
+  <img src="assets/shellbee-logo.png" alt="ShellBee Logo" width="150">
+</p>
+
+<h1 align="center">ShellBee</h1>
 
 **shellbee** is a lightweight CLI tool for storing, organizing, and running your favorite terminal commands in a flash. Think of it as your busy little helper in the shell — always ready to buzz into action.
 
