@@ -15,11 +15,11 @@ func Save(args ...string) {
 	err := storage.WriteKey(key, command)
 
 	if err != nil {
-		fmt.Printf("Could not write the provided key, error: %v", err)
+		fmt.Printf("Could not write the provided command alias, error: %v", err)
 		return
 	}
 
-	fmt.Println("Command saved.")
+	fmt.Println("Command alias saved.")
 }
 
 func Run(args ...string) {
@@ -28,7 +28,7 @@ func Run(args ...string) {
 	command, err := storage.ReadKey(key)
 
 	if err != nil {
-		fmt.Printf("Could not read the provided key, error: %v", err)
+		fmt.Printf("Could not read the provided command alias, error: %v", err)
 		return
 	}
 
@@ -37,7 +37,7 @@ func Run(args ...string) {
 	stdout, err := cmd.Output()
 
 	if err != nil {
-		fmt.Printf("Could not run the command of the selected key, error: %v", err)
+		fmt.Printf("Could not run the command of the selected command alias, error: %v", err)
 		return
 	}
 
@@ -48,7 +48,7 @@ func List(args ...string) {
 	keys, err := storage.ListKeys()
 
 	if err != nil {
-		fmt.Printf("Could not list keys, error: %v", err)
+		fmt.Printf("Could not list command aliases, error: %v", err)
 		return
 	}
 
@@ -66,7 +66,14 @@ func Search(args ...string) {
 }
 
 func Delete(args ...string) {
-	fmt.Println("Delete handler")
+	key := args[0]
+
+	if err := storage.DeleteKey(key); err != nil {
+		fmt.Printf("Could not delete the provided command, error: %v", err)
+		return
+	}
+
+	fmt.Println("Command alias deleted.")
 }
 
 func Help(args ...string) {

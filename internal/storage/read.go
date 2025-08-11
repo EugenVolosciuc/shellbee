@@ -22,7 +22,7 @@ type KeyNotFoundError struct {
 }
 
 func (err *KeyNotFoundError) Error() string {
-	return fmt.Sprintf("%s key not found", err.key)
+	return fmt.Sprintf("%s key not found\n", err.key)
 }
 
 func getStorageFileLocation() (string, error) {

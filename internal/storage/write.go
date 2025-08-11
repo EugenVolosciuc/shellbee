@@ -62,8 +62,26 @@ func WriteKey(key, command string) error {
 	return nil
 }
 
-func DeleteKey() {
+func DeleteKey(key string) error {
+	storageFileData, err := readStorageFile()
 
+	if err != nil {
+		return err
+	}
+
+	_, ok := storageFileData.Aliases[key]
+
+	if !ok {
+		return &KeyNotFoundError{key}
+	}
+
+	delete(storageFileData.Aliases, key)
+
+	jsonStr, _ := json.Marshal(storageFileData)
+
+	saveStorageFile(jsonStr)
+
+	return nil
 }
 
 func CheckAndCreateStorageFile() error {
